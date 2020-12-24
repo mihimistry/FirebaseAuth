@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -29,7 +30,9 @@ class LoginActivity : AppCompatActivity() {
         viewBinding.btnLogin.setOnClickListener {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(viewBinding.edtEmail.text.toString(), viewBinding.edtPass.text.toString())
                     .addOnCompleteListener {
-                        if (it.isSuccessful) Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                        if (it.isSuccessful) {Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this,SendNotificationActivity::class.java))
+                        }
                         else Toast.makeText(this, "" + it.exception, Toast.LENGTH_SHORT).show()
                     }
         }
@@ -106,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun userUI(user: FirebaseUser?) {
-        Toast.makeText(this, "" + user?.displayName, Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this,SendNotificationActivity::class.java))
     }
 
     companion object {
